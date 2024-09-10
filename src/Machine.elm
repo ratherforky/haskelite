@@ -14,6 +14,7 @@ import Dict exposing (Dict)
 import Shows
 
 import Monocle.Optional as Monocle
+import Debug exposing (log)
 
 -- check if an expression is in weak head normal form      
 isWhnf : Expr -> Bool

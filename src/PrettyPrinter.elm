@@ -17,6 +17,9 @@ import Pretty.Renderer exposing (Renderer)
 import Html exposing (Html, Attribute)
 import Html.Attributes exposing (class)
    
+import Debug exposing (log)
+import Debug exposing (toString)
+
 type alias Options
     = { prettyLists : Bool     -- should we prettify lists?
       , prettyEnums : Bool     -- should we prettify prelude enum* functions?
@@ -93,11 +96,11 @@ prettyPattern p
 --
 prettyConfStep : Options -> Conf -> Int -> Maybe (Html msg)
 prettyConfStep opts conf step
-    = case ppConfStep opts conf step of
-          Just doc ->
-              Just <| Pretty.Renderer.pretty defaultLength htmlRenderer doc
-          Nothing ->
-              Nothing
+    = case ppConfStep opts ((\(x,y,z) -> (x, log "Control" y,z)) conf) step of
+        Just doc ->
+            Just <| Pretty.Renderer.pretty defaultLength htmlRenderer doc
+        Nothing ->
+            Nothing
 
 -- pretty print a configuration step
 ppConfStep : Options -> Conf -> Int -> Maybe (Doc Tag)
@@ -125,7 +128,7 @@ ppConf opts (heap, control, stack)
                  ([], expr1) ->
                      Just (ppExpr ppCtx expr1)
                  (stk,expr1) ->
-                     let ellipsis = String.repeat (List.length stk) "."
+                     let ellipsis = String.repeat (List.length stk) "?"
                      in Just (taggedString ellipsis Linenumber
                              |> a space     
                              |> a (align (ppExpr ppCtx expr1)))

@@ -32,6 +32,7 @@ import Browser
 import CustomElement.CodeEditor as Editor
 import Keyboard.Event exposing (KeyboardEvent, considerKeyboardEvent)
 import Keyboard.Key exposing (Key(..))
+import Debug exposing (log)
 
 
 -- startup flags
@@ -158,7 +159,7 @@ view model =
         Editing m ->
             editingView m
         Reducing m ->
-            reduceView m
+            reduceView (log "ReduceModel" m)
         Panic msg ->
             panicView msg
 
